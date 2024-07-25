@@ -1,1 +1,1 @@
-# argo-example
+# argo-example-k8s-config
