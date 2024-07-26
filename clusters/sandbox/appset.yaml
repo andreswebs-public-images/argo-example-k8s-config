@@ -1,0 +1,44 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: apps
+spec:
+  goTemplate: true
+  goTemplateOptions: [missingkey=error]
+  template:
+    metadata:
+      name: "{{.name}}"
+    spec:
+      project: apps
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
+      source:
+        repoURL: git@github.com:andreswebs/argo-example-k8s-config.git
+        targetRevision: main
+        path: "{{.path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{.namespace}}"
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - clusterName: sandbox
+          - list:
+              elements:
+                - name: mu
+                  namespace: apps
+                  path: clusters/{{.clusterName}}/apps/mu
+                - name: nu
+                  namespace: apps
+                  path: clusters/{{.clusterName}}/apps/nu
+                - name: tu
+                  namespace: apps
+                  path: clusters/{{.clusterName}}/apps/tu
