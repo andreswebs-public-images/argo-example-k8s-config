@@ -1,5 +1,5 @@
 ---
-name: Pull Request
+name: Inspect
 on:
   workflow_dispatch:
 
