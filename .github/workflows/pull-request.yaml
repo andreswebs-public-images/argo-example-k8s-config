@@ -20,7 +20,7 @@ jobs:
     env:
       CLUSTER: ${{ matrix.clusters }}
       CHART_NAME: ${{ matrix.charts }}
-      APP_PATH: ./clusters/${{ matrix.clusters }}/${{ matrix.charts }}
+      APP_PATH: ./clusters/${{ matrix.clusters }}/apps/${{ matrix.charts }}
       APP_ID: ${{ matrix.charts }}.${{ matrix.clusters }}
       SOURCE_YAML: ${{ matrix.charts }}.${{ matrix.clusters }}.source.yaml
       SOURCE_ARTIFACT: ${{ matrix.charts }}-${{ matrix.clusters }}-source
