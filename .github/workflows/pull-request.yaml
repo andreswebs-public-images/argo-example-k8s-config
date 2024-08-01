@@ -82,7 +82,7 @@ jobs:
           diff ${SOURCE_YAML} ${TARGET_YAML} | tee ${APP_ID}.diff.txt
 
       - name: Report
-        uses: hightouchinc/github-actions/.github/actions/file-report@main
+        uses: andreswebs/gh-actions/.github/actions/file-report@main
         with:
           source-txt-file: ${APP_ID}.diff.txt
           environment: ${{ env.CLUSTER }} - ${{ env.CHART }}
