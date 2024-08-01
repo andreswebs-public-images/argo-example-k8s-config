@@ -20,13 +20,12 @@ jobs:
     env:
       CLUSTER: ${{ matrix.clusters }}
       CHART_NAME: ${{ matrix.charts }}
-      APP_PATH: ./clusters/${{ env.CLUSTER }}/${{ env.CHART_NAME }}
-      APP_ID: ${{ env.CHART_NAME }}.${{ env.CLUSTER }}
-      ARTIFACT_PREFIX: ${{ env.CHART_NAME }}-${{ env.CLUSTER }}
-      SOURCE_YAML: ${{ env.APP_ID }}.source.yaml
-      SOURCE_ARTIFACT: ${{ env.ARTIFACT_PREFIX }}-source
-      TARGET_YAML: ${{ env.APP_ID }}.target.yaml
-      TARGET_ARTIFACT: ${{ env.ARTIFACT_PREFIX }}-target
+      APP_PATH: ./clusters/${{ matrix.clusters }}/${{ matrix.charts }}
+      APP_ID: ${{ matrix.charts }}.${{ matrix.clusters }}
+      SOURCE_YAML: ${{ matrix.charts }}.${{ matrix.clusters }}.source.yaml
+      SOURCE_ARTIFACT: ${{ matrix.charts }}-${{ matrix.clusters }}-source
+      TARGET_YAML: ${{ matrix.charts }}.${{ matrix.clusters }}.target.yaml
+      TARGET_ARTIFACT: ${{ matrix.charts }}-${{ matrix.clusters }}-target
 
     steps:
       - name: Environment
@@ -65,7 +64,7 @@ jobs:
       - name: Download source artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.ARTIFACT_PREFIX }}-source
+          name: ${{ matrix.charts }}-${{ matrix.clusters }}-source
 
       - name: Target Template
         run: |
@@ -86,4 +85,4 @@ jobs:
         uses: hightouchinc/github-actions/.github/actions/file-report@main
         with:
           source-txt-file: ${APP_ID}.diff.txt
-          environment: ${{ env.CLUSTER }} - ${{ env.CHART_NAME }}
+          environment: ${{ env.CLUSTER }} - ${{ env.CHART }}
