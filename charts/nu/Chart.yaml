@@ -5,6 +5,7 @@ description: nu application
 type: application
 version: 0.0.8
 dependencies:
-  - name: app
+  - alias: nu
+    name: app
     version: 0.0.8
     repository: oci://public.ecr.aws/andreswebs/charts
