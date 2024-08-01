@@ -84,5 +84,5 @@ jobs:
       - name: Report
         uses: andreswebs/gh-actions/.github/actions/file-report@main
         with:
-          source-txt-file: ${APP_ID}.diff.txt
+          source-txt-file: ${{ env.APP_ID }}.diff.txt
           environment: ${{ env.CLUSTER }} - ${{ env.CHART }}
