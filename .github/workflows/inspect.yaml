@@ -6,14 +6,6 @@ on:
 jobs:
   diff:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        clusters:
-          - sandbox
-        charts:
-          - mu
-          - nu
-          - tu
 
     env:
       CLUSTER: ${{ matrix.clusters }}
