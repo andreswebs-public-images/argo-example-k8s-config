@@ -48,7 +48,7 @@ jobs:
       - name: Source Template
         run: |
           helm dependency build "${APP_PATH}"
-          helm template "${APP_PATH}" | tee "${SOURCE_YAML}"
+          helm template --debug "${APP_PATH}" | tee "${SOURCE_YAML}"
 
       - name: Upload source artifact
         uses: actions/upload-artifact@v4
