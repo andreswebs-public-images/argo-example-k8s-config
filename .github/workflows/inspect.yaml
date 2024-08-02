@@ -7,29 +7,10 @@ jobs:
   diff:
     runs-on: ubuntu-latest
 
-    env:
-      CLUSTER: ${{ matrix.clusters }}
-      CHART_NAME: ${{ matrix.charts }}
-      APP_PATH: ./clusters/${{ matrix.clusters }}/apps/${{ matrix.charts }}
-      APP_ID: ${{ matrix.charts }}.${{ matrix.clusters }}
-      SOURCE_YAML: ${{ matrix.charts }}.${{ matrix.clusters }}.source.yaml
-      SOURCE_ARTIFACT: ${{ matrix.charts }}-${{ matrix.clusters }}-source
-      TARGET_YAML: ${{ matrix.charts }}.${{ matrix.clusters }}.target.yaml
-      TARGET_ARTIFACT: ${{ matrix.charts }}-${{ matrix.clusters }}-target
-
     steps:
-      - name: Environment
-        env:
-          APP_PATH: ${{ env.APP_PATH }}
-          APP_ID: ${{ env.APP_ID }}
-          SOURCE_YAML: ${{ env.SOURCE_YAML }}
-          TARGET_YAML: ${{ env.TARGET_YAML }}
-        run: |
-          echo "APP_PATH=${APP_PATH}" >> $GITHUB_ENV
-          echo "APP_ID=${APP_ID}" >> $GITHUB_ENV
-          echo "SOURCE_YAML=${SOURCE_YAML}" >> $GITHUB_ENV
-          echo "TARGET_YAML=${TARGET_YAML}" >> $GITHUB_ENV
+      - uses: actions/checkout@v4
 
       - name: Inspect
         run: |
-          helm version
+          helm dependency build clusters/sandbox/apps/mu
+          helm template --debug clusters/sandbox/apps/mu | tee mu.sandbox.source.yaml
