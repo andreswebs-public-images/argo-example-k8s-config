@@ -94,9 +94,19 @@ jobs:
           name: ${{ env.TARGET_ARTIFACT }}
           path: ${{ env.TARGET_YAML }}
 
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v13
+
+      - name: Enable Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@v7
+
+      - name: Install difftastic
+        run: |
+          nix-env --install difftastic --file '<nixpkgs>'
+
       - name: Diff
         run: |
-          diff ${SOURCE_YAML} ${TARGET_YAML} | tee ${APP_ID}.diff.txt
+          difft ${SOURCE_YAML} ${TARGET_YAML} | tee ${APP_ID}.diff.txt
 
       - name: Report
         uses: andreswebs/gh-actions/.github/actions/file-report@main
