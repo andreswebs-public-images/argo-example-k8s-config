@@ -1,5 +1,5 @@
 ---
-applicationName: mu
+applicationName: tu
 
 deployment:
   enabled: true
