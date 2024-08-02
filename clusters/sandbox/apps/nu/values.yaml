@@ -1,5 +1,5 @@
 ---
-mu:
+nu:
   deployment:
     image:
       tag: 3592e02a95dd540a3979c4d24fe18d4c821936df

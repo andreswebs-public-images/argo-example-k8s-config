@@ -1,13 +1,13 @@
 ---
-mu:
+tu:
   deployment:
     image:
       tag: 3592e02a95dd540a3979c4d24fe18d4c821936df
-  service:
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: http
-        protocol: TCP
-        port: 80
-        targetPort: 80
+  # service:
+  #   enabled: true
+  #   type: ClusterIP
+  #   ports:
+  #     - name: http
+  #       protocol: TCP
+  #       port: 80
+  #       targetPort: 80
