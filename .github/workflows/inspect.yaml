@@ -12,5 +12,6 @@ jobs:
 
       - name: Inspect
         run: |
+          helm dependency build charts/mu
           helm dependency build clusters/sandbox/apps/mu
           helm template --debug clusters/sandbox/apps/mu | tee mu.sandbox.source.yaml
