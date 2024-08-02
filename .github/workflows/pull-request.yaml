@@ -61,6 +61,12 @@ jobs:
           helm dependency build "${APP_PATH}"
           helm template --debug "${APP_PATH}" | tee "${SOURCE_YAML}"
 
+      - name: Validate Source
+        uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: /kubeconform
+          args: -summary ${{ env.SOURCE_YAML }}
+
       - name: Upload source artifact
         uses: actions/upload-artifact@v4
         with:
@@ -90,6 +96,12 @@ jobs:
           helm dependency build "${APP_PATH}"
           helm template "${APP_PATH}" | tee "${TARGET_YAML}"
 
+      - name: Validate Target
+        uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: /kubeconform
+          args: -summary ${{ env.TARGET_YAML }}
+
       - name: Upload target artifact
         uses: actions/upload-artifact@v4
         with:
@@ -108,9 +120,3 @@ jobs:
         with:
           source-txt-file: ${{ env.APP_ID }}.diff.txt
           environment: ${{ env.CLUSTER }} - ${{ env.CHART_NAME }}
-
-      - name: Validate
-        uses: docker://ghcr.io/yannh/kubeconform:latest
-        with:
-          entrypoint: /kubeconform
-          args: -summary ${{ env.TARGET_YAML }}
