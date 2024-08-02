@@ -20,6 +20,7 @@ jobs:
     env:
       CLUSTER: ${{ matrix.clusters }}
       CHART_NAME: ${{ matrix.charts }}
+      CHART_PATH: ./charts/${{ matrix.charts }}
       APP_PATH: ./clusters/${{ matrix.clusters }}/apps/${{ matrix.charts }}
       APP_ID: ${{ matrix.charts }}.${{ matrix.clusters }}
       SOURCE_YAML: ${{ matrix.charts }}.${{ matrix.clusters }}.source.yaml
@@ -30,11 +31,13 @@ jobs:
     steps:
       - name: Environment
         env:
+          CHART_PATH: ${{ env.CHART_PATH }}
           APP_PATH: ${{ env.APP_PATH }}
           APP_ID: ${{ env.APP_ID }}
           SOURCE_YAML: ${{ env.SOURCE_YAML }}
           TARGET_YAML: ${{ env.TARGET_YAML }}
         run: |
+          echo "CHART_PATH=${CHART_PATH}" >> $GITHUB_ENV
           echo "APP_PATH=${APP_PATH}" >> $GITHUB_ENV
           echo "APP_ID=${APP_ID}" >> $GITHUB_ENV
           echo "SOURCE_YAML=${SOURCE_YAML}" >> $GITHUB_ENV
@@ -44,6 +47,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Source dependencies
+        run: |
+          [ -d "${CHART_PATH}/charts" ] && rm -rf "${CHART_PATH}/charts"
+          [ -f "${CHART_PATH}/Chart.lock" ] && rm -f "${CHART_PATH}/Chart.lock"
+          helm dependency build "${CHART_PATH}"
 
       - name: Source Template
         run: |
@@ -61,6 +70,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.ref }}
 
+      - name: Target dependencies
+        run: |
+          [ -d "${CHART_PATH}/charts" ] && rm -rf "${CHART_PATH}/charts"
+          [ -f "${CHART_PATH}/Chart.lock" ] && rm -f "${CHART_PATH}/Chart.lock"
+          helm dependency build "${CHART_PATH}"
+
       - name: Download source artifact
         uses: actions/download-artifact@v4
         with:
@@ -68,6 +83,8 @@ jobs:
 
       - name: Target Template
         run: |
+          [ -d "${APP_PATH}/charts" ] && rm -rf "${APP_PATH}/charts"
+          [ -f "${APP_PATH}/Chart.lock" ] && rm -f "${APP_PATH}/Chart.lock"
           helm dependency build "${APP_PATH}"
           helm template "${APP_PATH}" | tee "${TARGET_YAML}"
 
