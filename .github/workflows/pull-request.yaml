@@ -56,6 +56,8 @@ jobs:
 
       - name: Source Template
         run: |
+          [ -d "${APP_PATH}/charts" ] && rm -rf "${APP_PATH}/charts"
+          [ -f "${APP_PATH}/Chart.lock" ] && rm -f "${APP_PATH}/Chart.lock"
           helm dependency build "${APP_PATH}"
           helm template --debug "${APP_PATH}" | tee "${SOURCE_YAML}"
 
@@ -79,7 +81,7 @@ jobs:
       - name: Download source artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.charts }}-${{ matrix.clusters }}-source
+          name: ${{ env.SOURCE_ARTIFACT }}
 
       - name: Target Template
         run: |
@@ -106,3 +108,9 @@ jobs:
         with:
           source-txt-file: ${{ env.APP_ID }}.diff.txt
           environment: ${{ env.CLUSTER }} - ${{ env.CHART_NAME }}
+
+      - name: Validate
+        uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: /kubeconform
+          args: -summary ${{ env.TARGET_YAML }}
