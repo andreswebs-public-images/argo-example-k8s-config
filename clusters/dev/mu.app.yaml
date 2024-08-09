@@ -1,0 +1,8 @@
+---
+- op: replace
+  path: /spec/sources/0/targetRevision
+  value: 0.0.8
+
+- op: replace
+  path: /spec/sources/1/path
+  value: clusters/dev

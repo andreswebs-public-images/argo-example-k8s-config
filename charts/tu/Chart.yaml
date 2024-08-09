@@ -4,6 +4,7 @@ name: tu
 description: tu application
 type: application
 version: 0.0.8
+appVersion: latest
 dependencies:
   - alias: tu
     name: app

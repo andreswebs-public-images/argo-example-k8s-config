@@ -4,7 +4,7 @@ applicationName: mu
 deployment:
   enabled: true
   image:
-    repository: 592678693542.dkr.ecr.us-east-2.amazonaws.com/argo-example/mu
+    repository: public.ecr.aws/andreswebs/argo-example/mu
     tag: latest
     pullPolicy: Always
 

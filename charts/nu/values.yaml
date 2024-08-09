@@ -4,7 +4,7 @@ applicationName: tu
 deployment:
   enabled: true
   image:
-    repository: 592678693542.dkr.ecr.us-east-2.amazonaws.com/argo-example/nu
+    repository: public.ecr.aws/andreswebs/argo-example/nu
     tag: latest
     pullPolicy: Always
 

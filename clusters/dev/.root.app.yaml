@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: workloads
+  namespace: argocd
+spec:
+  project: workloads
+  source:
+    targetRevision: main
+    # repoURL: ssh://git@ssh.dev.azure.com/v3/andreswebs/sandbox/k8s-apps-config
+    repoURL: https://github.com/andreswebs/argo-example-k8s-config.git
+    path: clusters/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    retry:
+      limit: 3
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=false
+      - Replace=true
