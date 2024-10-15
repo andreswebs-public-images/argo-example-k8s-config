@@ -1,0 +1,19 @@
+---
+- op: add
+  path: /spec/generators
+  value:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - clusterName: dev
+          - list:
+              elements:
+                - name: mu
+                  namespace: example
+                  path: apps/mu/overlays/{{.clusterName}}
+                  wave: 100
+                - name: nu
+                  namespace: example
+                  path: apps/nu/overlays/{{.clusterName}}
+                  wave: 100

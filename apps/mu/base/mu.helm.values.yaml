@@ -1,0 +1,4 @@
+---
+fullnameOverride: mu
+image:
+  repository: public.ecr.aws/andreswebs/argo-example/mu

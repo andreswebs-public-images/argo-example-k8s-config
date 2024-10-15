@@ -1,0 +1,4 @@
+---
+fullnameOverride: nu
+image:
+  repository: public.ecr.aws/andreswebs/argo-example/nu

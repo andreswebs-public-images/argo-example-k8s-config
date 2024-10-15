@@ -2,14 +2,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workloads
+  name: example
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
-  project: workloads
+  project: example
   source:
     targetRevision: main
-    # repoURL: ssh://git@ssh.dev.azure.com/v3/andreswebs/sandbox/k8s-apps-config
-    repoURL: https://github.com/andreswebs/argo-example-k8s-config.git
+    repoURL: ssh://git@github.com/andreswebs-public-images/argo-example-k8s-config
     path: clusters/dev
   destination:
     server: https://kubernetes.default.svc
